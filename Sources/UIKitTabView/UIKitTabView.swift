@@ -30,18 +30,20 @@ public struct UIKitTabView: View {
     }
     
     let viewControllers: [UIHostingController<AnyView>]
+    let didSelectIndex: ((Int) -> Void)?
     
-    public init(tabs: [Tab<AnyView>]) {
+    public init(tabs: [Tab<AnyView>], didSelectIndex: ((Int) -> Void)? = nil) {
         self.viewControllers = tabs.map() {
             let vc = UIHostingController(rootView: $0.content)
             vc.tabBarItem = $0.item
             
             return vc
         }
+        self.didSelectIndex = didSelectIndex
     }
     
     public var body: some View {
-        TabBarController(viewControllers: viewControllers)
+        TabBarController(viewControllers: viewControllers, didSelectIndex: didSelectIndex)
             .edgesIgnoringSafeArea(.bottom)
     }
 }
